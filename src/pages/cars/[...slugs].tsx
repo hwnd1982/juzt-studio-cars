@@ -1,5 +1,5 @@
-import { AppDispatch, appWrapper, useAppSelector } from "@/shared";
-import { getAsyncCar } from "@/entities";
+import { AppDispatch, appWrapper, getSession, useAppSelector } from "@/shared";
+import { getAsyncCar, userLogin } from "@/entities";
 import { GetServerSidePropsResult } from "next";
 import Link from "next/link";
 
@@ -7,10 +7,10 @@ export default function Car() {
   const car = useAppSelector(state => state.car);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between">
+    <section className="flex min-h-screen flex-col items-center justify-between">
         {car.item !== null &&
           <div  className="min-w-screen fixed left-0 top-0 right-0 bottom-0 z-10 bg-no-repeat bg-center bg-cover" style={{backgroundImage: `url(${car.item.image})`}}>
-            <div className="group/car absolute top-0 left-0 right-0 bottom-0 bg-black opacity-80 z-0"></div>
+            <div className="group/car absolute top-0 left-0 right-0 bottom-0 bg-black opacity-80 -z-10"></div>
             <div className="container flex items-center justify-center h-full">
     
               <div className="bg-white p-6 shadow-xl relative z-20 card-right-contents max-w-[min(100%,_28rem)] w-full">
@@ -53,18 +53,24 @@ export default function Car() {
             </div>
           </div>
         }
-      
-    </main>
+    </section>
   )
 }
 
 type Args = any | null | {params: {slugs: [make: string, model: string]}}
 type Result = GetServerSidePropsResult<Args>;
 
-export const getServerSideProps = appWrapper.getServerSideProps(store => async ({params}): Promise<Result>  => {
+export const getServerSideProps = appWrapper.getServerSideProps(store => async ({params, req}): Promise<Result>  => {
   try {
     if (Array.isArray(params?.slugs)) {
       const [make, model] = params?.slugs;
+      const session = await getSession(req.cookies);
+
+      console.log('session', session);
+
+      if (session) {
+        (store.dispatch as AppDispatch)(userLogin(session));
+      }
 
       await (store.dispatch as AppDispatch)(getAsyncCar({make, model}));
 

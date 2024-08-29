@@ -1,15 +1,13 @@
-import { ReactElement } from "react";
 import { usePageLoading } from "./use-page-loading"
 
-export function PageLoaderProvider({children}: {children: ReactElement}) {
+export function PageLoader() {
   const { isPageLoading } = usePageLoading();
 
   return (
     <>
-    {children}
     {isPageLoading &&
-      <div className="loader">
-        <svg className="loader-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+      <div className="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center z-50">
+        <svg className="block w-32 h-32" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
           <rect
             fill="#a855f7"
             width="3"

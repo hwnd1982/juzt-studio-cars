@@ -33,7 +33,7 @@ export const EndList = () => {
 
   return (
     <>
-      {cars.notLastPage && cars.status !== "loading" && <li ref={ref} className='' />}
+      {cars.notLastPage && cars.status !== "loading" && cars.status !== "idle" && <li ref={ref} className='' />}
     </>
   );
 };

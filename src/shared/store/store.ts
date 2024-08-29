@@ -2,7 +2,7 @@ import { Store } from "redux";
 import { configureStore, ThunkAction, ThunkDispatch, Action, AsyncThunkAction } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { createWrapper } from "next-redux-wrapper";
-import { carsReducers, carReducers } from "@/entities";
+import { carsReducers, carReducers, userReducers } from "@/entities";
 import { GetServerSidePropsResult } from "next";
 
 const makeStore = () => {
@@ -10,6 +10,7 @@ const makeStore = () => {
     reducer: {
       car: carReducers,
       cars: carsReducers,
+      user: userReducers,
     },
     devTools: true,
   });
