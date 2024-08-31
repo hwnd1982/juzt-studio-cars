@@ -56,7 +56,6 @@ export async function updateSession(request: NextRequest) {
     res.cookies.set({
       name: "session",
       value: await encrypt(parsed),
-      httpOnly: true,
       path: "/",
       expires: parsed.expires,
     });
