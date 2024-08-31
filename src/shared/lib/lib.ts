@@ -1,5 +1,4 @@
 import { SignJWT, jwtVerify } from "jose";
-import { NextApiRequest } from "next";
 import { NextRequest, NextResponse } from "next/server";
 
 const secretKey = "secret";
@@ -33,11 +32,6 @@ export async function login(user: string) {
   return session;
 }
 
-export async function logout() {
-  // Destroy the session
-  // cookies().set("session", "", { expires: new Date(0) });
-}
-
 export async function getSession(cookies: Partial<{ [key: string]: string }>) {
   const session = Object.keys(cookies).includes("session") ? cookies["session"] : null;
 
@@ -51,7 +45,6 @@ export async function updateSession(request: NextRequest) {
   const res = NextResponse.next();
 
   if (!session) {
-    // res.cookies.delete({ name: "session" });
     return;
   }
 
@@ -59,15 +52,12 @@ export async function updateSession(request: NextRequest) {
   const parsed = await decrypt(session);
 
   if (parsed) {
-    console.log(parsed);
-  }
-
-  if (parsed) {
     parsed.expires = new Date(Date.now() + 600 * 1000);
     res.cookies.set({
       name: "session",
       value: await encrypt(parsed),
       httpOnly: true,
+      path: "/",
       expires: parsed.expires,
     });
     return res;
