@@ -5,12 +5,13 @@ import { useAppDispatch, useAppSelector } from "@/shared/store";
 import { userLogin, userLogout } from "@/entities";
 import Link from "next/link";
 // import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 export const Auth = () => {
   const [isOpen, setIsOpen] = useState(false);
   const user = useAppSelector(state => state.user);
   // const router = useRouter();
-  // const pathname = usePathname();
+  const pathname = usePathname();
   const dispatch = useAppDispatch();
 
   const login = async (event: FormEvent<HTMLFormElement>) => {
@@ -38,9 +39,8 @@ export const Auth = () => {
   const logout = async () => {
     setIsOpen(false);
 
-    await axios('/api/logout');
-
     dispatch(userLogout());
+    axios('/api/logout');
     
     // if (pathname === "/cars/new") {
     //   router.push('/');
@@ -82,11 +82,13 @@ export const Auth = () => {
             </svg>
           </button>
 
-          <Link href={"/cars/new"} onClick={() => setIsOpen(false)} className="bg-transparent flex items-center justify-center p-2 rounded-sm text-white transition hover:text-purple-500">
-            <svg className="block w-8 h-8" viewBox="0 0 24 24" fill="none">
-              <path d="M12 8V16M8 12L10 12M16 12L12 12M4 16C4 18.2091 5.79086 20 8 20H16C18.2091 20 20 18.2091 20 16V8C20 5.79086 18.2091 4 16 4H8C5.79086 4 4 5.79086 4 8V12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </Link>
+          { pathname !== "/cars/new" &&
+            <Link href={"/cars/new"} onClick={() => setIsOpen(false)} className="bg-transparent flex items-center justify-center p-2 rounded-sm text-white transition hover:text-purple-500">
+              <svg className="block w-8 h-8" viewBox="0 0 24 24" fill="none">
+                <path d="M12 8V16M8 12L10 12M16 12L12 12M4 16C4 18.2091 5.79086 20 8 20H16C18.2091 20 20 18.2091 20 16V8C20 5.79086 18.2091 4 16 4H8C5.79086 4 4 5.79086 4 8V12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </Link> 
+          }
         </div>
       }
     </div>
