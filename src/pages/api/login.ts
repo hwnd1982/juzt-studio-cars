@@ -7,8 +7,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   res.setHeader(
     "Set-Cookie",
-    `session=${session}); path=/; Expires=${new Date(Date.now() + 600 * 1000).toUTCString()}`
+    `session=${session}); path=/; Expires=${new Date(Date.now() + 600 * 1000).toUTCString()}; HttpOnly`
   );
-  res.setHeader("Expires", ``);
+  // res.setHeader("Expires", ``);
   res.status(200).json(await decrypt(session));
 }
