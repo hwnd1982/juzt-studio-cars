@@ -37,6 +37,7 @@ export const Auth = () => {
     await axios('/api/logout');
 
     dispatch(userLogout());
+    
   }
 
   return (
