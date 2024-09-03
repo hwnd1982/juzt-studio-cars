@@ -3,10 +3,14 @@ import cn from "classnames";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "@/shared/store";
 import { userLogin, userLogout } from "@/entities";
+import Link from "next/link";
+// import { useRouter, usePathname } from "next/navigation";
 
 export const Auth = () => {
   const [isOpen, setIsOpen] = useState(false);
   const user = useAppSelector(state => state.user);
+  // const router = useRouter();
+  // const pathname = usePathname();
   const dispatch = useAppDispatch();
 
   const login = async (event: FormEvent<HTMLFormElement>) => {
@@ -38,6 +42,11 @@ export const Auth = () => {
 
     dispatch(userLogout());
     
+    // if (pathname === "/cars/new") {
+    //   router.push('/');
+    // }
+
+    // router.refresh();
   }
 
   return (
@@ -57,7 +66,7 @@ export const Auth = () => {
       </button>
       {!user.name ?
         <form onSubmit={login} className="transition -ml-3 translate-x-1/2 group-[&.is-open]:translate-x-0 flex items-center">
-          <input name="user_name" className="px-4 mr-1 flex-shrink-0 py-1 bg-gray-200 rounded-sm text-gray-900 outline-purple-500" placeholder="E-main" type="text" />
+          <input name="user_name" className="px-4 mr-1 flex-shrink-0 py-1 bg-gray-200 rounded-sm text-gray-900 outline-purple-500" placeholder="Same user name..." type="text" />
           <button type="submit" className="bg-gray-900 flex items-center justify-center p-2 rounded-sm text-gray-200">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className="block w-6 h-6">
               <path d="M11 16L15 12M15 12L11 8M15 12H3M4.51555 17C6.13007 19.412 8.87958 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C8.87958 3 6.13007 4.58803 4.51555 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -65,11 +74,20 @@ export const Auth = () => {
           </button>
         </form> :
 
-        <button onClick={logout} type="button" className="bg-gray-200 flex items-center justify-center p-2 rounded-sm text-gray-900">
-          <svg className="block w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="matrix(-1, 0, 0, 1, 0, 0)"> 
-            <path d="M13 3H12C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21H13M17 8L21 12M21 12L17 16M21 12H9" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
-          </svg>
-        </button>
+        <div className="flex items-center [&>not(:last-child)]:mr-3">
+          <p className="text-[1.6rem] text-white max-w-[10rem] text-ellipsis whitespace-nowrap overflow-hidden">{user.name}</p>
+          <button onClick={logout} type="button" className="bg-transparent flex items-center justify-center p-2 rounded-sm text-white transition hover:text-purple-500">
+            <svg className="block w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="matrix(-1, 0, 0, 1, 0, 0)"> 
+              <path d="M13 3H12C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21H13M17 8L21 12M21 12L17 16M21 12H9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
+            </svg>
+          </button>
+
+          <Link href={"/cars/new"} onClick={() => setIsOpen(false)} className="bg-transparent flex items-center justify-center p-2 rounded-sm text-white transition hover:text-purple-500">
+            <svg className="block w-8 h-8" viewBox="0 0 24 24" fill="none">
+              <path d="M12 8V16M8 12L10 12M16 12L12 12M4 16C4 18.2091 5.79086 20 8 20H16C18.2091 20 20 18.2091 20 16V8C20 5.79086 18.2091 4 16 4H8C5.79086 4 4 5.79086 4 8V12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </Link>
+        </div>
       }
     </div>
   )

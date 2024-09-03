@@ -4,7 +4,7 @@ import { EndList } from "@/features";
 import { GetServerSidePropsResult } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { getSession, login } from "../shared/lib/lib";
+import { getSession } from "@/shared";
 
 export default function Home() {
   const cars = useAppSelector(state => state.cars);
