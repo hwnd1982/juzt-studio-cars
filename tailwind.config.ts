@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  content: ["./src/**/*.{tsx,jsx}"],
+  content: ["./src/**/*.{js,ts,tsx,jsx}"],
   theme: {
     extend: {
       backgroundImage: {

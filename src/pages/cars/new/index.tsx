@@ -2,8 +2,8 @@ import { AppDispatch, appWrapper, useAppSelector } from "@/shared";
 import { userLogin } from "@/entities";
 import { GetServerSidePropsResult } from "next";
 import { getSession } from "@/shared";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect } from "react"; 
+import { useRouter } from "next/navigation"; 
 import { Roboto } from "next/font/google";
 const roboto = Roboto({ subsets: ["cyrillic"], weight: ['100', '300', '400'] });
 

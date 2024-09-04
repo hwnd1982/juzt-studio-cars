@@ -6,6 +6,7 @@ import { userLogin, userLogout } from "@/entities";
 import Link from "next/link";
 // import { useRouter, usePathname } from "next/navigation";
 import { usePathname } from "next/navigation";
+import { routes } from "@/shared";
 
 export const Auth = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,7 +26,7 @@ export const Auth = () => {
 
       if (!name) return;
 
-      const {data} = await axios('/api/login', {
+      const {data} = await axios(`${routes.authApi}/login`, {
         method: 'POST',
         data: {name},
       });
@@ -37,16 +38,9 @@ export const Auth = () => {
   }
 
   const logout = async () => {
+    await axios(`${routes.authApi}/logout`);
     setIsOpen(false);
-
     dispatch(userLogout());
-    axios('/api/logout');
-    
-    // if (pathname === "/cars/new") {
-    //   router.push('/');
-    // }
-
-    // router.refresh();
   }
 
   return (

@@ -5,6 +5,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const user = req.body;
   const session = await login(user);
+
   const cookies = serialize("session", session, {
     path: "/",
     expires: new Date(Date.now() + 600 * 1000),
