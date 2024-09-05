@@ -9,7 +9,7 @@ export async function middleware(request: NextRequest) {
   const isProtectedRoute = privateRoutes.includes(path) && !session?.user.name;
 
   if (request.url.includes(routes.authApi)) {
-    return NextResponse.next();
+    return;
   }
 
   if (isProtectedRoute) {
